@@ -80,10 +80,12 @@ variable "aap_password" {
   sensitive   = true
 }
 
-variable "aap_job_template_id" {
-  description = "AAP Job Template ID to execute"
+variable "aap_workflow_job_template_id" {
+  description = "AAP Workflow Job Template ID to execute"
   type        = number
+  default     = 2
   # Get this from AAP UI or API
+  # URL format: https://aap.example.com/#/templates/workflow_job_template/2
 }
 
 variable "aap_inventory_id" {
