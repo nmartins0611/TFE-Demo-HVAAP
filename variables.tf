@@ -37,7 +37,7 @@ variable "instance_type" {
 variable "allowed_ssh_cidr" {
   description = "CIDR blocks allowed to SSH to the instance"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # Restrict this in production!
+  default     = ["0.0.0.0/0"]  # Change this default to your IP for production!
 }
 
 # Vault Configuration
