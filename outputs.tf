@@ -38,10 +38,6 @@ output "ssh_connection_command" {
   value       = "ssh -i /path/to/private-key ec2-user@${aws_instance.rhel_server.public_ip}"
 }
 
-output "workflow_job_id" {
-  description = "AAP Workflow Job ID (the execution instance)"
-  value       = try(aap_workflow_job.configure_server.id, "Not available - check AAP UI")
-}
 
 output "workflow_job_status" {
   description = "Status of the AAP workflow job execution"
@@ -53,10 +49,6 @@ output "workflow_job_url" {
   value       = "${var.aap_host}/#/jobs/workflow/${try(aap_workflow_job.configure_server.id, "ID")}"
 }
 
-output "workflow_job_template_id" {
-  description = "AAP Workflow Job Template ID that was executed"
-  value       = var.aap_workflow_job_template_id
-}
 
 output "key_suffix" {
   description = "Random suffix used for SSH key naming"
