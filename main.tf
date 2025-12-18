@@ -271,8 +271,8 @@ resource "aws_instance" "rhel_server" {
 }
 
 # Launch AAP workflow job template after instance is ready
-resource "aap_workflow_job_template" "configure_server" {
-  workflow_job_template_id = data.aap_workflow_job_template.configure_server.id
+data "aap_workflow_job_template" "configure_server" {
+  id = 10
   
   inventory_id = var.aap_inventory_id
   
