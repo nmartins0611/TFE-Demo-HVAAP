@@ -1,4 +1,3 @@
-
 terraform {
   required_version = ">= 1.0"
   
@@ -15,9 +14,9 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 4.0"
     }
-##    aap = {
-##      source  = "ansible/aap"
-##      version = "~> 1.0"
+    aap = {
+      source  = "ansible/aap"
+      version = "~> 1.0"
     }
   }
 }
