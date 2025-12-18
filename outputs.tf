@@ -40,12 +40,17 @@ output "ssh_connection_command" {
 
 output "workflow_job_id" {
   description = "AAP Workflow Job ID (the execution instance)"
-  value       = aap_workflow_job.configure_server.id
+  value       = try(aap_workflow_job.configure_server.id, "Not available - check AAP UI")
 }
 
 output "workflow_job_status" {
   description = "Status of the AAP workflow job execution"
-  value       = aap_workflow_job.configure_server.status
+  value       = try(aap_workflow_job.configure_server.status, "Check AAP UI for job status")
+}
+
+output "workflow_job_url" {
+  description = "Direct link to view the workflow job in AAP"
+  value       = "${var.aap_host}/#/jobs/workflow/${try(aap_workflow_job.configure_server.id, "ID")}"
 }
 
 output "workflow_job_template_id" {
