@@ -58,6 +58,11 @@ data "vault_generic_secret" "aws_creds" {
   path = "secret/aws/credentials"
 }
 
+# Data source to get workflow job template information
+data "aap_workflow_job_template" "configure_server" {
+  id = var.aap_workflow_job_template_id
+}
+
 # Generate TLS private key for SSH
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
@@ -265,9 +270,9 @@ resource "aws_instance" "rhel_server" {
   }
 }
 
-# Trigger Ansible AAP job template after instance is ready
-resource "aap_job_launch" "configure_server" {
-  job_template_id = var.aap_job_template_id
+# Launch AAP workflow job template after instance is ready
+resource "aap_workflow_job_template_launch" "configure_server" {
+  workflow_job_template_id = data.aap_workflow_job_template.configure_server.id
   
   inventory_id = var.aap_inventory_id
   
@@ -276,6 +281,7 @@ resource "aap_job_launch" "configure_server" {
     instance_id     = aws_instance.rhel_server.id
     vault_key_path  = vault_generic_secret.ssh_private_key.path
     environment     = var.environment
+    key_suffix      = random_id.suffix.hex
   })
   
   # Wait for instance to be ready
