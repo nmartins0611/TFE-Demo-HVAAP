@@ -83,7 +83,7 @@ variable "aap_password" {
 variable "aap_workflow_job_template_id" {
   description = "AAP Workflow Job Template ID to execute"
   type        = number
-  default     = 2
+  default     = 11
   # Get this from AAP UI or API
   # URL format: https://aap.example.com/#/templates/workflow_job_template/2
 }
@@ -91,5 +91,6 @@ variable "aap_workflow_job_template_id" {
 variable "aap_inventory_id" {
   description = "AAP Inventory ID"
   type        = number
+  default     = 2
   # Get this from AAP UI or API
 }
