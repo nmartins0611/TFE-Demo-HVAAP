@@ -269,16 +269,6 @@ resource "aws_instance" "rhel_server" {
 resource "aap_workflow_job" "configure_server" {
   workflow_job_template_id = var.aap_workflow_job_template_id
   
-  inventory_id = var.aap_inventory_id
-  
-  extra_vars = jsonencode({
-    target_host    = aws_instance.rhel_server.public_ip
-    instance_id    = aws_instance.rhel_server.id
-    vault_key_path = vault_generic_secret.ssh_private_key.path
-    environment    = var.environment
-    key_suffix     = random_id.suffix.hex
-  })
-  
   # Wait for instance to be ready and SSH key stored
   depends_on = [
     aws_instance.rhel_server,
