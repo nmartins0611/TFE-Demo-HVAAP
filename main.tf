@@ -58,11 +58,6 @@ data "vault_generic_secret" "aws_creds" {
   path = "secret/aws/credentials"
 }
 
-# Data source to get workflow job template information
-data "aap_workflow_job_template" "configure_server" {
-  id = var.aap_workflow_job_template_id
-}
-
 # Generate TLS private key for SSH
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
@@ -270,21 +265,21 @@ resource "aws_instance" "rhel_server" {
   }
 }
 
-# Launch AAP workflow job template after instance is ready
-data "aap_workflow_job_template" "configure_server" {
-  id = 10
+# Launch existing AAP workflow job template after instance is ready
+resource "aap_workflow_job" "configure_server" {
+  workflow_job_template_id = var.aap_workflow_job_template_id
   
   inventory_id = var.aap_inventory_id
   
   extra_vars = jsonencode({
-    target_host     = aws_instance.rhel_server.public_ip
-    instance_id     = aws_instance.rhel_server.id
-    vault_key_path  = vault_generic_secret.ssh_private_key.path
-    environment     = var.environment
-    key_suffix      = random_id.suffix.hex
+    target_host    = aws_instance.rhel_server.public_ip
+    instance_id    = aws_instance.rhel_server.id
+    vault_key_path = vault_generic_secret.ssh_private_key.path
+    environment    = var.environment
+    key_suffix     = random_id.suffix.hex
   })
   
-  # Wait for instance to be ready
+  # Wait for instance to be ready and SSH key stored
   depends_on = [
     aws_instance.rhel_server,
     vault_generic_secret.ssh_private_key
