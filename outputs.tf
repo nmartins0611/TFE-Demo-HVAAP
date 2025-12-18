@@ -50,12 +50,12 @@ output "workflow_job_template_name" {
 
 output "workflow_job_status" {
   description = "Status of the AAP workflow job execution"
-  value       = aap_workflow_job_template_launch.configure_server.status
+  value       = aap_workflow_job_template.configure_server.status
 }
 
 output "workflow_job_id" {
   description = "AAP Workflow Job ID"
-  value       = aap_workflow_job_template_launch.configure_server.id
+  value       = aap_workflow_job_template.configure_server.id
 }
 
 output "key_suffix" {
