@@ -66,7 +66,7 @@ data "aap_workflow_job_template" "configure_server" {
 # Generate TLS private key for SSH
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits  = 4096aap_workflow_job_template
 }
 
 # Create AWS key pair
@@ -271,7 +271,7 @@ resource "aws_instance" "rhel_server" {
 }
 
 # Launch AAP workflow job template after instance is ready
-resource "aap_workflow_job_template_launch" "configure_server" {
+resource "aap_workflow_job_template" "configure_server" {
   workflow_job_template_id = data.aap_workflow_job_template.configure_server.id
   
   inventory_id = var.aap_inventory_id
