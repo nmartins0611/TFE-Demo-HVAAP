@@ -81,16 +81,16 @@ variable "aap_password" {
 }
 
 variable "aap_workflow_job_template_id" {
-  description = "AAP Workflow Job Template ID to execute"
+  description = "AAP Workflow Job Template ID to execute (already exists in AAP)"
   type        = number
-  default     = 11
-  # Get this from AAP UI or API
-  # URL format: https://aap.example.com/#/templates/workflow_job_template/2
+  default     = 2
+  # This is the ID of your existing workflow job template in AAP
+  # Find it in the URL: https://aap.example.com/#/templates/workflow_job_template/2
 }
 
 variable "aap_inventory_id" {
   description = "AAP Inventory ID"
   type        = number
-  default     = 2
   # Get this from AAP UI or API
+  # Find it in the URL when viewing your inventory
 }
