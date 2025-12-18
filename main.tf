@@ -66,13 +66,17 @@ resource "tls_private_key" "ssh_key" {
 
 # Create AWS key pair
 resource "aws_key_pair" "deployer" {
-  key_name   = "${var.project_name}-key-${random_id.suffix.hex}"
+  key_name   = "${var.project_name}-key-latest"
   public_key = tls_private_key.ssh_key.public_key_openssh
   
   tags = {
     Name        = "${var.project_name}-ssh-key"
     Environment = var.environment
     ManagedBy   = "Terraform"
+  }
+  
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -81,9 +85,9 @@ resource "random_id" "suffix" {
   byte_length = 4
 }
 
-# Store SSH private key in Vault
+# Store SSH private key in Vault at a fixed path
 resource "vault_generic_secret" "ssh_private_key" {
-  path = "secret/${var.project_name}/ssh-keys/${random_id.suffix.hex}"
+  path = "secret/${var.project_name}/ssh-keys/latest"
   
   data_json = jsonencode({
     private_key = tls_private_key.ssh_key.private_key_pem
